@@ -26,7 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class ImageEnhancer extends Component implements ActionListener {
+public class ImageEnhancerWithUndoAndRedo extends Component implements ActionListener {
  private static final long serialVersionUID = 1L;
  String startingImage = "AYPE-Rainier-Vista.jpg";
     BufferedImage biTemp; // Used when reading in an image.
@@ -135,7 +135,7 @@ public class ImageEnhancer extends Component implements ActionListener {
        ConvolveOp.EDGE_NO_OP, null);
     }
 
-    public ImageEnhancer() {
+    public ImageEnhancerWithUndoAndRedo() {
      createMenu();
      setUpImageTransformations();
         try {
@@ -200,10 +200,10 @@ public class ImageEnhancer extends Component implements ActionListener {
         return;      
     }
 
-    private ImageEnhancer image_enhancer_instance;
-    public ImageEnhancer getImageEnhancer() { // For use by the autograder
+    private ImageEnhancerWithUndoAndRedo image_enhancer_instance;
+    public ImageEnhancerWithUndoAndRedo getImageEnhancer() { // For use by the autograder
       if(image_enhancer_instance == null) {
-       image_enhancer_instance = new ImageEnhancer();
+       image_enhancer_instance = new ImageEnhancerWithUndoAndRedo();
       }
       return image_enhancer_instance;
     }
@@ -212,7 +212,7 @@ public class ImageEnhancer extends Component implements ActionListener {
  }
 
     public static void main(String s[]) {
-     new ImageEnhancer().run(); // Called from below, and by the autograder.
+     new ImageEnhancerWithUndoAndRedo().run(); // Called from below, and by the autograder.
     }
     
     public void run() {
@@ -220,7 +220,7 @@ public class ImageEnhancer extends Component implements ActionListener {
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
-        image_enhancer_instance = new ImageEnhancer(); 
+        image_enhancer_instance = new ImageEnhancerWithUndoAndRedo(); 
         f.setJMenuBar(image_enhancer_instance.menuBar);
         f.add("Center", image_enhancer_instance);
         f.pack();
