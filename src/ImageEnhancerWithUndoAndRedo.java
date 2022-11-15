@@ -47,7 +47,8 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
 
     //  Students: Here, you should declare two variables to hold instances
     	//of your stack class, with one for Undo and one for Redo.
-    
+    	BufferedImageStack redo;
+    	BufferedImageStack undo;
 
     // A 3x3 filtering kernel for high-pass filtering:
     public static final float[] highPass = {
@@ -152,7 +153,8 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
         
         //  Students: Add code to create empty stack instances for the Undo stack 
         	//and the Redo stack, and put your code for this here:
-        
+        redo = new BufferedImageStack();
+        undo = new BufferedImageStack();
     }
 
     public Dimension getPreferredSize() {
@@ -183,10 +185,20 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
     public void actionPerformed(ActionEvent e) {
         //  Students: Add code in this method to save the current buffered image for
         	//undoing and dispose of any redoable actions.
-        
+    	
+		if(undo.getSize() == 0) {undo.push(biWorking);}
+ 
         //  Also add code to enable and disable the Undo and Redo menu items, and to process
         //  these items when the user selects them.
-
+		
+		else{ 
+			undo.push(biFiltered);
+    		undoItem.setEnabled(true);
+    		
+		}
+		
+		
+		
      //System.out.println("The actionEvent is "+e); // This can be useful when debugging.
      if (e.getSource()==exitItem) { System.exit(0); }
      if (e.getSource()==blurItem) { blur(); }
@@ -194,6 +206,9 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
      if (e.getSource()==darkenItem) { darken(); }
      if (e.getSource()==photoNegItem) { photoneg(); }
      if (e.getSource()==thresholdItem) { threshold(); }
+     if(e.getSource() == undoItem) { redo.push(undo.pop()); redoItem.setEnabled(true); }
+	 if(e.getSource() == redoItem) { undo.push(redo.pop());redoItem.setEnabled(true); }
+
         gWorking.drawImage(biFiltered, 0, 0, null); // Draw the pixels from biFiltered into biWorking.
         repaint(); // Ask Swing to update the screen.
         printNumbersOfElementsInBothStacks(); // Report on the states of the stacks.
@@ -216,7 +231,7 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
     }
     
     public void run() {
-        JFrame f = new JFrame("ImageEnhancer without Undo or Redo"); // Students should update this.
+        JFrame f = new JFrame("ImageEnhancer with Undo or Redo"); // Students should update this.
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
@@ -231,8 +246,8 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
      //  Students: Uncomment this code that prints out the numbers of elements
      	// in each of the two stacks (Undo and Redo):
         
-        //System.out.println("The Undo stack contains " + undoStack.getSize() + " elements.");
-        //System.out.println("The Redo stack contains " + redoStack.getSize() + " elements.");
+        System.out.println("The Undo stack contains " + undo.getSize() + " elements.");
+        System.out.println("The Redo stack contains " + redo.getSize() + " elements.");
     }
     
     //To make sure we are actually assigning the values of our BufferedImages instead of
