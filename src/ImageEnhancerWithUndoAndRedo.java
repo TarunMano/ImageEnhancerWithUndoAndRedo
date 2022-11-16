@@ -211,8 +211,11 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
      if (e.getSource()==photoNegItem) { photoneg(); }
      if (e.getSource()==thresholdItem) { threshold(); }
      if(e.getSource() == undoItem) {
-    	 biWorking = undo.pop();
-    	 redo.push(copyImage(biWorking)); 
+    	
+    
+    	 redo.push(undo.pop()); 
+    	 biWorking = copyImage(undo.get(undo.getSize()));
+    	 
     	 redoItem.setEnabled(true); }
 	 if(e.getSource() == redoItem) { 
 		 undo.push(redo.pop());

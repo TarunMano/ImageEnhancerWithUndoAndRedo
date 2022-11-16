@@ -26,11 +26,11 @@ public class BufferedImageStack {
 	public BufferedImage pop() {
 		
 		BufferedImage removed = null;
-		int tail = stack.length-1;
-		if(stack[tail] == null) {
-			
-			tail--;
-		}
+		int tail = getSize() - 1;
+//		if(stack[tail] == null) {
+//			
+//			tail--;
+//		}
 		
 
 		removed = stack[tail];
@@ -58,13 +58,13 @@ public class BufferedImageStack {
 		
 	}
 	public int getSize() {
-		int cnt = 0;
-		for(int i = 0; i < stack.length; i++) {
-			if(stack[i] != null) {
-				cnt++;
-			}
-		}
-		return cnt;
+//		int cnt = 0;
+//		for(int i = 0; i < stack.length; i++) {
+//			if(stack[i] != null) {
+//				cnt++;
+//			}
+//		}
+		return track;
 		
 	}
 	public int getArraySize() {
