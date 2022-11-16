@@ -24,8 +24,17 @@ public class BufferedImageStack {
 		
 	}
 	public BufferedImage pop() {
-		BufferedImage removed = stack[track-1];
-		stack[track-1]=null;
+		
+		BufferedImage removed = null;
+		int tail = stack.length-1;
+		if(stack[tail] == null) {
+			
+			tail--;
+		}
+		
+
+		removed = stack[tail];
+		stack[tail] = null;
 		return removed;
 		
 	}

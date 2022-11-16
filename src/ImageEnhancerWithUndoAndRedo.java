@@ -185,16 +185,20 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
     public void actionPerformed(ActionEvent e) {
         //  Students: Add code in this method to save the current buffered image for
         	//undoing and dispose of any redoable actions.
-    	
-		if(undo.getSize() == 0) {undo.push(biWorking);}
+   
+		if(undo.getSize() == 0) {
+			
+			undo.push(copyImage(biWorking));	
+		
+			undoItem.setEnabled(true);
+		
+		}
  
         //  Also add code to enable and disable the Undo and Redo menu items, and to process
         //  these items when the user selects them.
 		
 		else{ 
-			undo.push(biFiltered);
-    		undoItem.setEnabled(true);
-    		
+			undo.push(copyImage(biWorking));
 		}
 		
 		
@@ -206,8 +210,13 @@ public class ImageEnhancerWithUndoAndRedo extends Component implements ActionLis
      if (e.getSource()==darkenItem) { darken(); }
      if (e.getSource()==photoNegItem) { photoneg(); }
      if (e.getSource()==thresholdItem) { threshold(); }
-     if(e.getSource() == undoItem) { redo.push(undo.pop()); redoItem.setEnabled(true); }
-	 if(e.getSource() == redoItem) { undo.push(redo.pop());redoItem.setEnabled(true); }
+     if(e.getSource() == undoItem) {
+    	 biWorking = undo.pop();
+    	 redo.push(copyImage(biWorking)); 
+    	 redoItem.setEnabled(true); }
+	 if(e.getSource() == redoItem) { 
+		 undo.push(redo.pop());
+		 redoItem.setEnabled(true); }
 
         gWorking.drawImage(biFiltered, 0, 0, null); // Draw the pixels from biFiltered into biWorking.
         repaint(); // Ask Swing to update the screen.
